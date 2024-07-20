@@ -47,8 +47,9 @@ in your workflow
   uses: 0x4r45h/docker-compose-ci@v0.1.0
 ```
 
-## Multiple compose files and profiles
-the default compose file is `docker-compose.yml` and default profile is `--profile '*'`, mean it will try to build every available services.   
+## Multiple compose files, profiles and services
+the default compose file is `docker-compose.yml` and default profile is `--profile '*'`, mean it will try to build every available profiles.
+default value for services is empty which means all, you select only a few services to build.   
 you can override them like below
 ```yaml
 - name: publish
@@ -56,6 +57,7 @@ you can override them like below
   with:
     docker_compose_files: '-f docker-compose.yml -f docker-compose.ci.yml'
     profiles: "--profile alpha --profile beta"
+    services: "foo baz"
 ```
 ### Using ENV Variables for images
 ```yaml

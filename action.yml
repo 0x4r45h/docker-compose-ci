@@ -14,12 +14,16 @@ inputs:
     description: "docker-compose files to build and publish images from, multiple compose files can be passed as -f foo.yml -f bar.yml"
     required: false
     default: '-f docker-compose.yml'
+  services:
+    description: "list of services to build, default is empty which mean every available service in the selected profiles"
+    required: false
+    default: ''
 runs:
   using: "composite"
   steps:
     - id: build
-      run: docker compose ${{ inputs.docker_compose_files }} ${{ inputs.profiles }} build
+      run: docker compose ${{ inputs.docker_compose_files }} ${{ inputs.profiles }} build ${{ inputs.services }}
       shell: bash
     - id: push
-      run: docker compose ${{ inputs.docker_compose_files }} ${{ inputs.profiles }} push
+      run: docker compose ${{ inputs.docker_compose_files }} ${{ inputs.profiles }} push ${{ inputs.services }}
       shell: bash
