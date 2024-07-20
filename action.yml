@@ -1,0 +1,25 @@
+# action.yml
+name: "Docker Compose Build & Push"
+author: "Arash Mo"
+description: "Build, tag and push all services in docker-compose files"
+branding:
+  icon: "zap"
+  color: "blue"
+inputs:
+  profiles:
+    description: "Set docker compose --profile flag, for multiple profiles you can do like --profile foo --profile bar"
+    required: false
+    default: "--profile '*'"
+  docker_compose_files:
+    description: "docker-compose files to build and publish images from, multiple compose files can be passed as -f foo.yml -f bar.yml"
+    required: false
+    default: '-f docker-compose.yml'
+runs:
+  using: "composite"
+  steps:
+    - id: build
+      run: docker compose ${{ inputs.docker_compose_files }} ${{ inputs.profiles }} build
+      shell: bash
+    - id: push
+      run: docker compose ${{ inputs.docker_compose_files }} ${{ inputs.profiles }} push
+      shell: bash
